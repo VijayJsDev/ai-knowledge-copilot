@@ -1,6 +1,6 @@
 # 🧠 Universal AI Knowledge Copilot & RAG Backend Playground
 
-A production-grade, domain-agnostic AI backend architecture and interactive playground for **Document-Grounded Knowledge Assistants**, powered by **Google Gemini** and **Semantic Vector Search**.
+A production-grade, domain-agnostic AI backend architecture and interactive playground for **Document-Grounded Knowledge Assistants**, powered by **Semantic Vector Search** and **LLM Grounding**.
 
 Built with **Node.js, TypeScript, and Express**, designed to ingest **any documentation, technical manuals, policies, or custom notes** (`.txt`, `.md`, `.json`, `.csv`) and provide factual, grounded answers with citations.
 

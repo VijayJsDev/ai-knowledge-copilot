@@ -1,7 +1,7 @@
 {
-  "name": "gemini-rag-copilot",
+  "name": "ai-knowledge-copilot",
   "version": "1.0.0",
-  "description": "Universal AI Knowledge Copilot & RAG Backend using Google Gemini and Vector Search",
+  "description": "Universal AI Knowledge Copilot & RAG Backend using Vector Search",
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
