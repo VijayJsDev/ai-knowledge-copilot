@@ -166,36 +166,50 @@
               </defs>
             </svg>
           </div>
-          <h2>What would you like to know from your knowledge base?</h2>
-          <p>This copilot answers questions strictly using your uploaded documentation, technical specs, policy guides, or notes with verified citations.</p>
+          <h2>What would you like to explore in this system?</h2>
+          <p>Ask deep architectural, workflow, database, or UI questions. Every answer is grounded directly in the verified codebase documentation with file references.</p>
           
           <div class="sample-prompts-grid">
-            <button class="prompt-card" data-prompt="Summarize the key rules and guidelines from the uploaded knowledge base.">
-              <div class="prompt-icon">📋</div>
-              <div class="prompt-text">
-                <strong>Summarize Key Guidelines</strong>
-                <span>Extract main rules and high-level summaries</span>
-              </div>
-            </button>
-            <button class="prompt-card" data-prompt="Explain the step-by-step procedure or lifecycle described in the documents.">
+            <button class="prompt-card" data-prompt="Explain how dynamic organization-specific order statuses work in OrderAssist. What is the order_status_type enum and how do automatic vs manual transitions happen?">
               <div class="prompt-icon">🔄</div>
               <div class="prompt-text">
-                <strong>Explain Step-by-Step</strong>
-                <span>Workflows, state transitions, or processes</span>
+                <strong>Dynamic Statuses & Workflows</strong>
+                <span>OrderStatus model, semantic enums, and transition guards</span>
               </div>
             </button>
-            <button class="prompt-card" data-prompt="Compare the different tiers, roles, or configurations outlined in the files.">
-              <div class="prompt-icon">⚖️</div>
+            <button class="prompt-card" data-prompt="How does the system calculate GST, and how does it route between CGST+SGST (intra-state) vs IGST (inter-state) based on state IDs?">
+              <div class="prompt-icon">💰</div>
               <div class="prompt-text">
-                <strong>Compare Configurations</strong>
-                <span>Roles, SLA tiers, or system settings</span>
+                <strong>GST Routing & Tax Calculation</strong>
+                <span>ProductGstValue, reference dates, and state comparisons</span>
               </div>
             </button>
-            <button class="prompt-card" data-prompt="What edge cases, limits, or exceptions are specified in the documentation?">
-              <div class="prompt-icon">🔍</div>
+            <button class="prompt-card" data-prompt="How does Batch & Expiry tracking work in OrderAssist, and how is stock deducted across invoices and adjustments?">
+              <div class="prompt-icon">📦</div>
               <div class="prompt-text">
-                <strong>Limits & Exceptions</strong>
-                <span>Restrictions, timeouts, and error handling</span>
+                <strong>Batch & Expiry Inventory</strong>
+                <span>ProductBatch, Inventory::InvoiceStockService, and stock alerts</span>
+              </div>
+            </button>
+            <button class="prompt-card" data-prompt="How does the user hierarchy and permission system work? Explain subordinate BFS traversal, role permissions, and plan feature flags.">
+              <div class="prompt-icon">🔒</div>
+              <div class="prompt-text">
+                <strong>Permissions & User Hierarchy</strong>
+                <span>User#all_orders, BFS direct_reports, and feature gates</span>
+              </div>
+            </button>
+            <button class="prompt-card" data-prompt="Walk through the complete lifecycle: Lead -> Proposal -> Order -> Acceptance -> Invoice -> Dispatch -> Sales Return.">
+              <div class="prompt-icon">⚡</div>
+              <div class="prompt-text">
+                <strong>End-to-End Sales Lifecycle</strong>
+                <span>Step-by-step conversion, services, and credit notes</span>
+              </div>
+            </button>
+            <button class="prompt-card" data-prompt="What are the key React 19 screens, routes, and UI state flows in OrderAssist? How does the UI adapt to dynamic organization statuses?">
+              <div class="prompt-icon">🖥️</div>
+              <div class="prompt-text">
+                <strong>React 19 Frontend & UI Architecture</strong>
+                <span>Webpack, Redux store, TipTap editor, and routes</span>
               </div>
             </button>
           </div>
@@ -206,12 +220,22 @@
 
       <!-- Composer Input Bar -->
       <div class="composer-wrapper">
+        <!-- Quick Topic Filter Pills -->
+        <div class="topic-chips" id="topic-chips">
+          <button type="button" class="topic-chip active" data-topic="all">🌐 All Topics</button>
+          <button type="button" class="topic-chip" data-topic="workflows">🔄 Status & Workflows</button>
+          <button type="button" class="topic-chip" data-topic="billing">💰 Billing & GST</button>
+          <button type="button" class="topic-chip" data-topic="inventory">📦 Inventory & Batches</button>
+          <button type="button" class="topic-chip" data-topic="security">🔒 Permissions & Auth</button>
+          <button type="button" class="topic-chip" data-topic="frontend">🖥️ React 19 UI</button>
+        </div>
+
         <form class="composer-form" id="chat-form">
           <div class="input-glass-container">
             <textarea
               id="chat-input"
               rows="1"
-              placeholder="Ask a question about your uploaded documents or knowledge base..."
+              placeholder="Ask anything about architecture, workflows, schema, or UI screens..."
               autocomplete="off"
             ></textarea>
             <button type="submit" class="btn-send" id="btn-send" disabled title="Send message (Enter)">

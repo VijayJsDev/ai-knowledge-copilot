@@ -19,7 +19,7 @@ router.post('/stream', async (req: Request, res: Response): Promise<void> => {
     sessionId,
     message: message.trim(),
     res,
-    topK: typeof topK === 'number' ? topK : 4,
+    topK: typeof topK === 'number' ? topK : 6,
   });
 });
 

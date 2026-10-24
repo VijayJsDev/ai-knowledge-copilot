@@ -605,6 +605,12 @@ body {
   width: 100%;
 }
 
+@media (min-width: 1200px) {
+  .sample-prompts-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
 .prompt-card {
   background: var(--bg-glass-card);
   border: 1px solid var(--border-subtle);
@@ -641,6 +647,125 @@ body {
 .prompt-text span {
   font-size: 11px;
   color: var(--text-muted);
+}
+
+/* Topic Chips */
+.topic-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.topic-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.topic-chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: var(--bg-glass-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.topic-chip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.topic-chip.active {
+  background: rgba(99, 102, 241, 0.25);
+  color: var(--accent-cyan);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+}
+
+/* Suggested Follow-ups */
+.followup-box {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.followup-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #a5b4fc;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.followup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.followup-btn {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  text-align: left;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.followup-btn:hover {
+  background: rgba(99, 102, 241, 0.22);
+  border-color: var(--accent-cyan);
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.followup-btn svg {
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+}
+
+/* Copy Bubble Button */
+.btn-copy-bubble {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 4px 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.15s ease;
+}
+
+.message-bubble:hover .btn-copy-bubble {
+  opacity: 1;
+}
+
+.btn-copy-bubble:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* Chat Messages */

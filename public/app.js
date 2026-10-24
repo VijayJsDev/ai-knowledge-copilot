@@ -364,7 +364,25 @@ async function loadSessionMessages(sessionId) {
 /* ==========================================================================
    Composer & Chat Streaming Engine
    ========================================================================== */
+let activeTopicPrefix = '';
+
 function setupComposer() {
+  const topicChips = document.querySelectorAll('.topic-chip');
+  topicChips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      topicChips.forEach((c) => c.classList.remove('active'));
+      chip.classList.add('active');
+      const topic = chip.getAttribute('data-topic');
+      if (topic === 'workflows') activeTopicPrefix = '[Focus Area: Dynamic Order & Proposal Statuses, State Machines & Workflows] ';
+      else if (topic === 'billing') activeTopicPrefix = '[Focus Area: Invoicing, Pricing, Taxes & GST Routing] ';
+      else if (topic === 'inventory') activeTopicPrefix = '[Focus Area: Inventory, Stock Deduction & Batch/Expiry Tracking] ';
+      else if (topic === 'security') activeTopicPrefix = '[Focus Area: User Roles, Permissions, BFS Subordinate Hierarchy & Multi-Tenancy] ';
+      else if (topic === 'frontend') activeTopicPrefix = '[Focus Area: React 19 Frontend Screens, Navigation & UI Components] ';
+      else activeTopicPrefix = '';
+      chatInput.focus();
+    });
+  });
+
   chatInput.addEventListener('input', () => {
     chatInput.style.height = 'auto';
     chatInput.style.height = `${Math.min(chatInput.scrollHeight, 140)}px`;
@@ -396,8 +414,10 @@ function scrollToBottom() {
 }
 
 async function sendMessage() {
-  const query = chatInput.value.trim();
-  if (!query || isGenerating) return;
+  const rawQuery = chatInput.value.trim();
+  if (!rawQuery || isGenerating) return;
+
+  const query = activeTopicPrefix ? `${activeTopicPrefix}${rawQuery}` : rawQuery;
 
   isGenerating = true;
   btnSend.disabled = true;
@@ -406,8 +426,8 @@ async function sendMessage() {
 
   welcomeHero.style.display = 'none';
 
-  // 1. Render User Message
-  renderMessage('user', query);
+  // 1. Render User Message (display clean user query)
+  renderMessage('user', rawQuery);
   scrollToBottom();
 
   // 2. Create Placeholder for AI Message with Streaming indicator
@@ -492,12 +512,21 @@ async function sendMessage() {
       }
     }
 
-    // Clean up cursor and finalize markdown
-    textEl.innerHTML = marked.parse(accumulatedResponse || 'No response generated.');
+    // Extract follow-ups and clean up response
+    const { cleanedText, followups } = extractFollowupsAndCleanText(accumulatedResponse);
+    textEl.innerHTML = marked.parse(cleanedText || 'No response generated.');
+
+    // Add Copy Button
+    addCopyButtonToBubble(bubbleEl, cleanedText);
 
     // Append Citations Box if citations exist
     if (citations && citations.length > 0) {
       renderCitations(citationsContainer, citations);
+    }
+
+    // Append Clickable Follow-up Suggestions
+    if (followups && followups.length > 0) {
+      renderFollowupChips(citationsContainer, followups);
     }
 
     loadSystemStats();
@@ -512,6 +541,76 @@ async function sendMessage() {
   }
 }
 
+function extractFollowupsAndCleanText(markdownText) {
+  const markerRegex = /###\s*(?:💡\s*)?Suggested Follow-ups?:?\s*([\s\S]*)$/i;
+  const match = markdownText.match(markerRegex);
+  if (!match) {
+    return { cleanedText: markdownText, followups: [] };
+  }
+
+  const cleanedText = markdownText.replace(markerRegex, '').trim();
+  const followupsBlock = match[1];
+  const followups = [];
+  const lines = followupsBlock.split('\n');
+  for (const line of lines) {
+    const cleanLine = line.replace(/^[\s*\-•\d.]+\s*/, '').trim();
+    if (cleanLine.length > 5) {
+      followups.push(cleanLine);
+    }
+  }
+
+  return { cleanedText, followups: followups.slice(0, 3) };
+}
+
+function renderFollowupChips(container, followups) {
+  if (!followups || followups.length === 0) return;
+  const box = document.createElement('div');
+  box.className = 'followup-box';
+  box.innerHTML = `
+    <div class="followup-title">
+      <span>💡 Suggested Follow-ups</span>
+    </div>
+  `;
+  const list = document.createElement('div');
+  list.className = 'followup-list';
+  followups.forEach((f) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'followup-btn';
+    btn.innerHTML = `
+      <span>${escapeHtml(f)}</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    `;
+    btn.addEventListener('click', () => {
+      chatInput.value = f;
+      btnSend.disabled = false;
+      sendMessage();
+    });
+    list.appendChild(btn);
+  });
+  box.appendChild(list);
+  container.appendChild(box);
+}
+
+function addCopyButtonToBubble(bubble, text) {
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'btn-copy-bubble';
+  copyBtn.title = 'Copy response';
+  copyBtn.innerHTML = `
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    </svg>
+  `;
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(text);
+    showToast('Copied response to clipboard!');
+  });
+  bubble.appendChild(copyBtn);
+}
+
 function renderMessage(role, content, citations = []) {
   const row = document.createElement('div');
   row.className = `message-row ${role}`;
@@ -523,12 +622,22 @@ function renderMessage(role, content, citations = []) {
   } else {
     const bubble = document.createElement('div');
     bubble.className = 'message-bubble';
-    bubble.innerHTML = marked.parse(content);
+    
+    const { cleanedText, followups } = extractFollowupsAndCleanText(content);
+    bubble.innerHTML = marked.parse(cleanedText);
+
+    addCopyButtonToBubble(bubble, cleanedText);
 
     if (citations && citations.length > 0) {
       const citationsContainer = document.createElement('div');
       renderCitations(citationsContainer, citations);
       bubble.appendChild(citationsContainer);
+    }
+
+    if (followups && followups.length > 0) {
+      const followupsContainer = document.createElement('div');
+      renderFollowupChips(followupsContainer, followups);
+      bubble.appendChild(followupsContainer);
     }
 
     row.innerHTML = `
