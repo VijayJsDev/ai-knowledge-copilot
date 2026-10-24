@@ -1,7 +1,7 @@
 {
-  "name": "ai-saas-copilot-poc",
+  "name": "gemini-rag-copilot",
   "version": "1.0.0",
-  "description": "Enterprise-grade AI Backend & Playground for Document-Grounded Knowledge Assistant using Google Gemini",
+  "description": "Universal AI Knowledge Copilot & RAG Backend using Google Gemini and Vector Search",
   "type": "module",
   "main": "dist/server.js",
   "scripts": {

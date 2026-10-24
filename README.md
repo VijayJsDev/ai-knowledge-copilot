@@ -1,8 +1,8 @@
-# 🧠 SaaS Knowledge Copilot & RAG Backend Playground
+# 🧠 Universal AI Knowledge Copilot & RAG Backend Playground
 
-A production-grade AI backend architecture and interactive playground for **Document-Grounded Knowledge Assistants**, powered by **Google Gemini** and **Semantic Vector Search**.
+A production-grade, domain-agnostic AI backend architecture and interactive playground for **Document-Grounded Knowledge Assistants**, powered by **Google Gemini** and **Semantic Vector Search**.
 
-Built with **Node.js, TypeScript, and Express**, demonstrating industry-standard best practices for SaaS applications (such as Order Management Systems, ERPs, and multi-tenant platforms).
+Built with **Node.js, TypeScript, and Express**, designed to ingest **any documentation, technical manuals, policies, or custom notes** (`.txt`, `.md`, `.json`, `.csv`) and provide factual, grounded answers with citations.
 
 ---
 
@@ -11,7 +11,7 @@ Built with **Node.js, TypeScript, and Express**, demonstrating industry-standard
 ```
 User (Browser / Webhook / API Client)
        │
-  1. Upload Specs (.md, .txt)
+  1. Upload Any Knowledge Docs (.md, .txt, .json)
        ▼
 ┌────────────────────────────────────────────────────────┐
 │ Ingestion Pipeline                                     │
@@ -21,7 +21,7 @@ User (Browser / Webhook / API Client)
 │  - Local Vector Store with Cosine Similarity           │
 └────────────────────────────────────────────────────────┘
        │
-  2. Ask Question: "What is the cancellation window?"
+  2. Ask Question: "What are the rules / procedures?"
        ▼
 ┌────────────────────────────────────────────────────────┐
 │ Grounded Retrieval & Streaming (SSE)                   │
@@ -36,7 +36,7 @@ User (Browser / Webhook / API Client)
 ### ✨ Key Features
 1. **Strict Knowledge Grounding & Anti-Hallucination Guardrails:**
    * Answers are strictly synthesized from retrieved document chunks.
-   * Prompts instruct the model to cite exact source files and refuse to invent undocumented workflows.
+   * Prompts instruct the model to cite exact source files and honestly state when a topic is not covered in the knowledge base.
 2. **Server-Sent Events (SSE) Real-Time Token Streaming:**
    * Ultra-low latency Time-to-First-Token (TTFT) with live typing animations.
 3. **Multi-Model Resiliency & Failover:**
@@ -88,7 +88,7 @@ npm start
 | :--- | :--- | :--- |
 | `POST` | `/api/documents/upload` | Multipart file upload (`.md`, `.txt`, `.json`, `.csv`). Chunks, embeds, and indexes into vector store. |
 | `POST` | `/api/documents/raw` | Ingest raw text/markdown payload (`{ filename, content }`). |
-| `POST` | `/api/documents/load-samples` | 1-click loads and indexes all sample manuals from `sample_docs/`. |
+| `POST` | `/api/documents/load-samples` | 1-click loads and indexes sample knowledge documents from `sample_docs/`. |
 | `GET` | `/api/documents` | Lists all currently indexed documents and chunk statistics. |
 | `DELETE`| `/api/documents/:id` | Removes a document and deletes its vector embeddings. |
 
@@ -134,9 +134,9 @@ AI_POC/
 │   ├── index.html               # Semantic HTML layout
 │   ├── styles.css               # Modern glassmorphism CSS
 │   └── app.js                   # Client SSE reader & UI controller
-├── sample_docs/                 # Pre-loaded SaaS Knowledge Manuals
-│   ├── order_management_system_guide.md # OMS Lifecycles, Routing & Screens
-│   └── saas_tenant_policies.md          # Multi-tenant SLAs, Webhooks & RLS
+├── sample_docs/                 # Pre-loaded Knowledge Manuals
+│   ├── order_management_system_guide.md # Sample Operational Guide
+│   └── saas_tenant_policies.md          # Sample SLA & Governance Policies
 ├── package.json
 ├── tsconfig.json
 └── .env
@@ -148,4 +148,4 @@ AI_POC/
 When scaling this to millions of documents across distributed clusters:
 1. **Vector Store:** Replace `src/services/vector-store.service.ts` with a **Pinecone** client (`@pinecone-database/pinecone`) or **PostgreSQL** with the `pgvector` extension. The rest of your application logic (`rag.service.ts`, `chat.service.ts`) remains identical!
 2. **Session Memory:** Replace `src/services/session.service.ts` with a **Redis** client (`ioredis`) with key TTLs.
-3. **Context Caching:** For large, static enterprise manuals (50k+ tokens), use Gemini's native **Context Caching API** to save up to 75% on prompt costs.
+3. **Context Caching:** For large, static documentation (50k+ tokens), use Gemini's native **Context Caching API** to save up to 75% on prompt costs.

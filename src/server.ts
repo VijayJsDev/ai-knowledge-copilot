@@ -42,7 +42,7 @@ app.use((err: any, _req: express.Request, res: express.Response, _next: express.
 app.listen(env.PORT, () => {
   console.log(`
 =====================================================
-🚀 AI SaaS Copilot & RAG Backend Running!
+🚀 Universal AI Knowledge Copilot & RAG Backend Running!
 📡 URL: http://localhost:${env.PORT}
 🧠 Chat Model: ${env.GEMINI_CHAT_MODEL}
 📐 Embedding Model: ${env.GEMINI_EMBEDDING_MODEL}

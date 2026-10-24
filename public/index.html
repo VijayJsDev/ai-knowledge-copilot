@@ -36,8 +36,8 @@
             </svg>
           </div>
           <div class="brand-text">
-            <h2>SaaS Copilot</h2>
-            <span class="badge-pill">Enterprise RAG</span>
+            <h2>AI Copilot</h2>
+            <span class="badge-pill">Universal RAG</span>
           </div>
         </div>
         <button class="btn-new-chat" id="btn-new-chat" title="Start new conversation (Ctrl+K)">
@@ -89,7 +89,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
           </svg>
-          Load OMS Sample Manuals
+          Load Sample Knowledge Docs
         </button>
 
         <!-- Document List -->
@@ -121,7 +121,7 @@
             <span class="metric-lbl">Chunks</span>
           </div>
           <div class="metric-chip">
-            <span class="metric-val" id="stat-model">3.8 Flash</span>
+            <span class="metric-val" id="stat-model">3.5 Flash</span>
             <span class="metric-lbl">Chat</span>
           </div>
         </div>
@@ -133,14 +133,14 @@
       <!-- Top Navbar -->
       <header class="topbar">
         <div class="session-info">
-          <h1 id="active-session-title">Grounded SaaS Assistant</h1>
+          <h1 id="active-session-title">Grounded AI Assistant</h1>
           <div class="grounding-badge">
             <span class="pulse-icon"></span>
             <span>Vector Grounding Active</span>
           </div>
         </div>
         <div class="topbar-actions">
-          <span class="chip-model">Gemini 3.8 Flash</span>
+          <span class="chip-model">Gemini 3.5 Flash</span>
           <button class="btn-icon" id="btn-clear-session" title="Clear current session">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="3 6 5 6 21 6"></polyline>
@@ -166,36 +166,36 @@
               </defs>
             </svg>
           </div>
-          <h2>What would you like to know about your software?</h2>
-          <p>This copilot answers questions strictly using your uploaded documentation, module specs, and business rules with verified citations.</p>
+          <h2>What would you like to know from your knowledge base?</h2>
+          <p>This copilot answers questions strictly using your uploaded documentation, technical specs, policy guides, or notes with verified citations.</p>
           
           <div class="sample-prompts-grid">
-            <button class="prompt-card" data-prompt="What is the rule and time window for cancelling an order?">
-              <div class="prompt-icon">⏱️</div>
+            <button class="prompt-card" data-prompt="Summarize the key rules and guidelines from the uploaded knowledge base.">
+              <div class="prompt-icon">📋</div>
               <div class="prompt-text">
-                <strong>Order Cancellation Window</strong>
-                <span>Rules for cancelling orders in OrderFlow</span>
+                <strong>Summarize Key Guidelines</strong>
+                <span>Extract main rules and high-level summaries</span>
               </div>
             </button>
-            <button class="prompt-card" data-prompt="How does multi-warehouse routing decide which facility ships an order?">
-              <div class="prompt-icon">🏬</div>
+            <button class="prompt-card" data-prompt="Explain the step-by-step procedure or lifecycle described in the documents.">
+              <div class="prompt-icon">🔄</div>
               <div class="prompt-text">
-                <strong>Warehouse Routing Logic</strong>
-                <span>Single-box vs proximity vs split shipment</span>
+                <strong>Explain Step-by-Step</strong>
+                <span>Workflows, state transitions, or processes</span>
               </div>
             </button>
-            <button class="prompt-card" data-prompt="What are the differences between Growth and Enterprise tier SLAs?">
-              <div class="prompt-icon">📊</div>
+            <button class="prompt-card" data-prompt="Compare the different tiers, roles, or configurations outlined in the files.">
+              <div class="prompt-icon">⚖️</div>
               <div class="prompt-text">
-                <strong>Tenant SLA Differences</strong>
-                <span>Rate limits, order volume, and webhook retries</span>
+                <strong>Compare Configurations</strong>
+                <span>Roles, SLA tiers, or system settings</span>
               </div>
             </button>
-            <button class="prompt-card" data-prompt="Which UI screen does an operator use to split an order or force re-routing?">
-              <div class="prompt-icon">🖥️</div>
+            <button class="prompt-card" data-prompt="What edge cases, limits, or exceptions are specified in the documentation?">
+              <div class="prompt-icon">🔍</div>
               <div class="prompt-text">
-                <strong>UI Screen Navigation</strong>
-                <span>Order Detail Screen actions and buttons</span>
+                <strong>Limits & Exceptions</strong>
+                <span>Restrictions, timeouts, and error handling</span>
               </div>
             </button>
           </div>
@@ -211,7 +211,7 @@
             <textarea
               id="chat-input"
               rows="1"
-              placeholder="Ask a question about your uploaded business logic or software docs..."
+              placeholder="Ask a question about your uploaded documents or knowledge base..."
               autocomplete="off"
             ></textarea>
             <button type="submit" class="btn-send" id="btn-send" disabled title="Send message (Enter)">

@@ -60,14 +60,14 @@ export class ChatService {
         contextBlock = 'No matching documents found in the knowledge base.';
       }
 
-      const systemInstruction = `You are a high-precision AI Copilot and Subject Matter Expert for this application.
-Your mission is to provide accurate, helpful, and concise answers based on the uploaded knowledge base.
+      const systemInstruction = `You are a high-precision AI Knowledge Copilot and Subject Matter Assistant.
+Your mission is to provide accurate, helpful, and well-structured answers based strictly on the uploaded knowledge base and documents.
 
 CRITICAL OPERATIONAL RULES:
 1. STRICT GROUNDING: Answer questions using the provided Context Sources below.
-2. CITATIONS: Whenever stating a business rule, workflow, screen name, or configuration, cite the source document name (e.g., "[Source: order_management_guide.md]").
-3. ANTI-HALLUCINATION: If the information needed to answer the question is NOT in the provided context, state clearly and politely: "I could not find information regarding this in the uploaded documentation." Do NOT invent hypothetical screens, endpoints, or policies.
-4. TONE & FORMAT: Professional, clear, and well-structured using markdown headings, bullet points, and code blocks where applicable.
+2. CITATIONS: Whenever stating a fact, specification, procedure, or policy, cite the source document name (e.g., "[Source: filename.md]").
+3. ANTI-HALLUCINATION: If the information needed to answer the question is NOT in the provided context, state clearly and politely: "I could not find information regarding this in the uploaded documentation." Do NOT invent hypothetical facts or procedures.
+4. TONE & FORMAT: Clear, objective, and well-structured using markdown headings, bullet points, and code blocks where applicable.
 
 ================== RETRIEVED CONTEXT SOURCES ==================
 ${contextBlock}
